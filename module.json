@@ -1,7 +1,7 @@
 {
     "name": "Generator",
     "alias": "generator",
-    "description": "",
+    "description": "An extension based on infyom/laravel-generator and nwidart/laravel-modules to create a complete laravel modular application.",
     "keywords": [],
     "active": 1,
     "order": 0,
