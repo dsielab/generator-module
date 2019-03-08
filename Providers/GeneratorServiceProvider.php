@@ -187,10 +187,10 @@ class GeneratorServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('modules/common.php'),
+            __DIR__.'/../Config/config.php' => config_path('modules/generator.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'module.common'
+            __DIR__.'/../Config/config.php', 'module.generator'
         );
     }
 
@@ -201,7 +201,7 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/modules/common');
+        $viewPath = resource_path('views/modules/generator');
 
         $sourcePath = __DIR__.'/../Resources/views';
 
@@ -210,8 +210,8 @@ class GeneratorServiceProvider extends ServiceProvider
         ],'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/common';
-        }, \Config::get('view.paths')), [$sourcePath]), 'common');
+            return $path . '/modules/generator';
+        }, \Config::get('view.paths')), [$sourcePath]), 'generator');
     }
 
     /**
@@ -221,12 +221,12 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/common');
+        $langPath = resource_path('lang/modules/generator');
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'common');
+            $this->loadTranslationsFrom($langPath, 'generator');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'common');
+            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'generator');
         }
     }
 
