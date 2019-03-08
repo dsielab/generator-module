@@ -2,12 +2,16 @@
     "name": "dsielab/generator-module",
     "description": "An extension based on infyom/laravel-generator and nwidart/laravel-modules to create a complete laravel modular application.",
     "type": "laravel-module",
+    "license": "MIT",
     "authors": [
         {
             "name": "DSIELAB",
             "email": "dsielab@dsielab.com"
         }
     ],
+    "require": {
+        "php": ">=7.0.0"
+    },
     "extra": {
         "laravel": {
             "providers": [
