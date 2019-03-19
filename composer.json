@@ -10,12 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "nwidart/laravel-modules": "^4.0",
-        "joshbrw/laravel-module-installer": "dev-master",
-        "infyomlabs/adminlte-templates": "5.7.x-dev",
-        "infyomlabs/laravel-generator": "5.7.x-dev",
-        "infyomlabs/swagger-generator": "dev-master"
+        "php": ">=7.0.0"
     },
     "extra": {
         "laravel": {
