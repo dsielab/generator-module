@@ -68,4 +68,27 @@ return [
 
         'api_request'       => 'Modules\{Module}\Http\Requests\API',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Add-Ons
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'add_on' => [
+
+        'swagger'       => true,
+
+        'tests'         => true,
+
+        'datatables'    => false,
+
+        'menu'          => [
+
+            'enabled'       => false,
+
+            'menu_file'     => 'layouts/menu.blade.php',
+        ],
+    ],
 ];
