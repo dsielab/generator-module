@@ -99,6 +99,9 @@ class GeneratorConfig extends InfyOmGeneratorConfig
         // Getting namespaces patterns
         $moduleNamespaces = app('config')->get('modules.generator.namespace');
 
+        // Getting add_on definition from generator
+        $add_on = app('config')->get('modules.generator.add_on');
+
         // Replacing paths
         array_walk($modulePaths, function (&$item, $key, $module) {
             $item = str_replace('{Module}', $module, $item);
@@ -114,5 +117,8 @@ class GeneratorConfig extends InfyOmGeneratorConfig
 
         // Overriding namespaces
         app('config')->set('infyom.laravel_generator.namespace', $moduleNamespaces);
+
+        // Override add_on definition
+        app('config')->set('infyom.laravel_generator.add_on', $add_on);
     }
 }
