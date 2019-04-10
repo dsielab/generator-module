@@ -2,11 +2,14 @@
 
 namespace Modules\Generator\Providers;
 
+use Config;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Generator\Console\API\APIControllerGeneratorCommand;
 use Modules\Generator\Console\API\APIRequestsGeneratorCommand;
 use Modules\Generator\Console\API\TestsGeneratorCommand;
+use Modules\Generator\Console\BulkScaffoldGeneratorCommand;
 use Modules\Generator\Console\Common\MigrationGeneratorCommand;
 use Modules\Generator\Console\Common\ModelGeneratorCommand;
 use Modules\Generator\Console\API\APIGeneratorCommand;
@@ -30,6 +33,11 @@ use Modules\Generator\Console\VueJs\VueJsGeneratorCommand;
 
 class GeneratorServiceProvider extends ServiceProvider
 {
+    public function __construct($app)
+    {
+        parent::__construct($app);
+    }
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -49,6 +57,7 @@ class GeneratorServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->registerSwaggerModifications();
     }
 
     /**
@@ -60,96 +69,100 @@ class GeneratorServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
 
-        $this->app->singleton('generate.module', function ($app) {
+        $this->app->singleton('generate.module', function () {
             return new ModuleMakeCommand();
         });
 
-        $this->app->singleton('generate.module-use', function ($app) {
+        $this->app->singleton('generate.module-use', function () {
             return new UseCommand();
         });
 
-        $this->app->singleton('generate.module-used', function ($app) {
+        $this->app->singleton('generate.module-used', function () {
             return new UsedCommand();
         });
 
-        $this->app->singleton('generate.module-unuse', function ($app) {
+        $this->app->singleton('generate.module-unuse', function () {
             return new UnUseCommand();
         });
 
-        $this->app->singleton('generate.module-provider', function ($app) {
+        $this->app->singleton('generate.module-provider', function () {
             return new ProviderMakeCommand();
         });
 
-        $this->app->singleton('generate.publish', function ($app) {
+        $this->app->singleton('generate.publish', function () {
             return new GeneratorPublishCommand();
         });
 
-        $this->app->singleton('generate.api', function ($app) {
+        $this->app->singleton('generate.api', function () {
             return new APIGeneratorCommand();
         });
 
-        $this->app->singleton('generate.scaffold', function ($app) {
+        $this->app->singleton('generate.scaffold', function () {
             return new ScaffoldGeneratorCommand();
         });
 
-        $this->app->singleton('generate.publish.layout', function ($app) {
+        $this->app->singleton('generate.publish.layout', function () {
             return new LayoutPublishCommand();
         });
 
-        $this->app->singleton('generate.publish.templates', function ($app) {
+        $this->app->singleton('generate.publish.templates', function () {
             return new PublishTemplateCommand();
         });
 
-        $this->app->singleton('generate.api_scaffold', function ($app) {
+        $this->app->singleton('generate.api_scaffold', function () {
             return new APIScaffoldGeneratorCommand();
         });
 
-        $this->app->singleton('generate.migration', function ($app) {
+        $this->app->singleton('generate.migration', function () {
             return new MigrationGeneratorCommand();
         });
 
-        $this->app->singleton('generate.model', function ($app) {
+        $this->app->singleton('generate.model', function () {
             return new ModelGeneratorCommand();
         });
 
-        $this->app->singleton('generate.repository', function ($app) {
+        $this->app->singleton('generate.repository', function () {
             return new RepositoryGeneratorCommand();
         });
 
-        $this->app->singleton('generate.api.controller', function ($app) {
+        $this->app->singleton('generate.api.controller', function () {
             return new APIControllerGeneratorCommand();
         });
 
-        $this->app->singleton('generate.api.requests', function ($app) {
+        $this->app->singleton('generate.api.requests', function () {
             return new APIRequestsGeneratorCommand();
         });
 
-        $this->app->singleton('generate.api.tests', function ($app) {
+        $this->app->singleton('generate.api.tests', function () {
             return new TestsGeneratorCommand();
         });
 
-        $this->app->singleton('generate.scaffold.controller', function ($app) {
+        $this->app->singleton('generate.scaffold.controller', function () {
             return new ControllerGeneratorCommand();
         });
 
-        $this->app->singleton('generate.scaffold.requests', function ($app) {
+        $this->app->singleton('generate.scaffold.requests', function () {
             return new RequestsGeneratorCommand();
         });
 
-        $this->app->singleton('generate.scaffold.views', function ($app) {
+        $this->app->singleton('generate.scaffold.views', function () {
             return new ViewsGeneratorCommand();
         });
 
-        $this->app->singleton('generate.rollback', function ($app) {
+        $this->app->singleton('generate.rollback', function () {
             return new RollbackGeneratorCommand();
         });
 
-        $this->app->singleton('generate.vuejs', function ($app) {
+        $this->app->singleton('generate.vuejs', function () {
             return new VueJsGeneratorCommand();
         });
 
-        $this->app->singleton('generate.publish.vuejs', function ($app) {
+        $this->app->singleton('generate.publish.vuejs', function () {
             return new VueJsLayoutPublishCommand();
+        });
+
+        $this->app->singleton('generate.bulk_scaffold', function () {
+            return new BulkScaffoldGeneratorCommand();
         });
 
         $this->commands([
@@ -162,6 +175,7 @@ class GeneratorServiceProvider extends ServiceProvider
             'generate.api',
             'generate.scaffold',
             'generate.api_scaffold',
+            'generate.bulk_scaffold',
             'generate.publish.layout',
             'generate.publish.templates',
             'generate.migration',
@@ -211,7 +225,7 @@ class GeneratorServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/generator';
-        }, \Config::get('view.paths')), [$sourcePath]), 'generator');
+        }, Config::get('view.paths')), [$sourcePath]), 'generator');
     }
 
     /**
@@ -250,5 +264,28 @@ class GeneratorServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    /**
+     * Perform modifications on swagger routes for generated modules
+     */
+    public function registerSwaggerModifications()
+    {
+        try {
+            $allModules = $this->app->modules->all();
+            $appDir = ['app'];
+
+            foreach ($allModules as $moduleName => $module) {
+                if (strpos(self::class, $moduleName)) {
+                    continue;
+                }
+                $appDir[] = str_replace('{Module}', $moduleName, 'modules/{Module}/Http/Controllers/API');
+                $appDir[] = str_replace('{Module}', $moduleName, 'modules/{Module}/Entities');
+            }
+
+            $this->app->config->set('swaggervel.app-dir', $appDir);
+        } catch (Exception $e) {
+            $this->app->log->error($e);
+        }
     }
 }
