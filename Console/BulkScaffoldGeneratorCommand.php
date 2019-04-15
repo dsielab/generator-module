@@ -120,11 +120,11 @@ class BulkScaffoldGeneratorCommand extends BaseCommand
         $params = [];
         $usedModule = Str::studly($this->commandData->commandObj->option('module')) ?: app('modules')->getUsedNow();
 
-        if (!($skip = $this->commandData->getOption('skip'))) {
+        if ($skip = $this->commandData->commandObj->option('skip')) {
             $params['--skip'] = $skip;
         }
 
-        if (($type = $this->commandData->getOption('type')) && !in_array($type, array_keys($this->allowedTypes))) {
+        if (($type = $this->commandData->commandObj->option('type')) && !in_array($type, array_keys($this->allowedTypes))) {
             $this->error('Wrong type option see (generate:bulk_scaffold --help) for information about available values.');
             exit;
         } elseif(!$type) {
