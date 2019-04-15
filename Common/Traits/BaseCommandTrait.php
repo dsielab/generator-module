@@ -147,7 +147,7 @@ trait BaseCommandTrait
         }
 
         if ($runMigration) {
-            if ($this->commandData->config->forceMigrate) {
+            if ($this->commandData->getOption('forceMigrate')) {
                 $this->call('migrate');
             } elseif (!$this->commandData->getOption('fromTable') and !$this->isSkip('migration')) {
                 if ($this->commandData->getOption('jsonFromGUI')) {
