@@ -69,7 +69,7 @@ class DatabaseModelsGeneratorCommand extends BaseCommand
         FileUtil::createFile($path.'/', 'models.json', $content);
 
         $this->info('Definitions file was generated successfully on: '.$path.'/models.json');
-        $this->alert('Please review the file to correct the data to finally use on scaffold generation!');
+        $this->alert('Please review the file to correct the data to be finally used on scaffold generation!');
     }
 
     /**
