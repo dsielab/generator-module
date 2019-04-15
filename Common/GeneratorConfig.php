@@ -126,4 +126,16 @@ class GeneratorConfig extends InfyOmGeneratorConfig
         // Override add_on definition
         app('config')->set('infyom.laravel_generator.add_on', $add_on);
     }
+
+    /**
+     *
+     */
+    public function prepareAddOns()
+    {
+        $this->addOns['swagger'] = config('modules.generator.add_on.swagger', false);
+        $this->addOns['tests'] = config('modules.generator.add_on.tests', false);
+        $this->addOns['datatables'] = config('modules.generator.add_on.datatables', false);
+        $this->addOns['menu.enabled'] = config('modules.generator.add_on.menu.enabled', false);
+        $this->addOns['menu.menu_file'] = config('modules.generator.add_on.menu.menu_file', 'layouts.menu');
+    }
 }
