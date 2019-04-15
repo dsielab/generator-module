@@ -8,6 +8,7 @@
 
 namespace Modules\Generator\Common\Traits;
 
+use Illuminate\Contracts\Console\Application;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -29,17 +30,16 @@ use Modules\Generator\Generators\Scaffold\RoutesGenerator;
 use Modules\Generator\Generators\Scaffold\ViewGenerator;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Trait BaseCommandTrait
+ *
+ * @package Modules\Generator\Common\Traits
+ * @property CommandData $commandData
+ * @property Composer $composer
+ * @property Application $laravel
+ */
 trait BaseCommandTrait
 {
-    /** @var CommandData */
-    public $commandData;
-
-    /** @var Composer */
-    public $composer;
-
-    //** @var Application */
-    protected $laravel;
-
     /**
      * Get the console command options.
      *

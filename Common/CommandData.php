@@ -21,6 +21,9 @@ class CommandData extends InfyOmCommandData
     /** @var string  */
     public static $COMMAND_TYPE_API_SCAFFOLD_BULK = 'api_scaffold_bulk';
 
+    /** @var string  */
+    public static $COMMAND_TYPE_MODELS_FILE = 'models_file';
+
     /** @var BaseCommandTrait | BaseCommand | Command */
     public $commandObj;
 

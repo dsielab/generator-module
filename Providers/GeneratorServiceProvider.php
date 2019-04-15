@@ -2,7 +2,7 @@
 
 namespace Modules\Generator\Providers;
 
-use Config;
+use Illuminate\Support\Facades\Config;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
@@ -15,6 +15,7 @@ use Modules\Generator\Console\Common\ModelGeneratorCommand;
 use Modules\Generator\Console\API\APIGeneratorCommand;
 use Modules\Generator\Console\APIScaffoldGeneratorCommand;
 use Modules\Generator\Console\Common\RepositoryGeneratorCommand;
+use Modules\Generator\Console\DatabaseModelsGeneratorCommand;
 use Modules\Generator\Console\Module\ModuleMakeCommand;
 use Modules\Generator\Console\Module\ProviderMakeCommand;
 use Modules\Generator\Console\Module\UnUseCommand;
@@ -165,6 +166,10 @@ class GeneratorServiceProvider extends ServiceProvider
             return new BulkScaffoldGeneratorCommand();
         });
 
+        $this->app->singleton('generate.models_file', function () {
+            return new DatabaseModelsGeneratorCommand();
+        });
+
         $this->commands([
             'generate.module',
             'generate.module-use',
@@ -190,6 +195,7 @@ class GeneratorServiceProvider extends ServiceProvider
             'generate.rollback',
             'generate.vuejs',
             'generate.publish.vuejs',
+            'generate.models_file'
         ]);
     }
 

@@ -71,6 +71,11 @@ class GeneratorConfig extends InfyOmGeneratorConfig
         }
 
         parent::loadNamespaces($commandData);
+
+        $this->nsModelExtend = config(
+            'modules.generator.model_extend_class',
+            'Illuminate\Database\Eloquent\Model'
+        );
     }
 
     /**
