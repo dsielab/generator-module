@@ -44,7 +44,7 @@ class MigrationGenerator extends InfyOmMigrationGenerator
         // Adding missing use statement
         $needles = 'use Illuminate\Support\Facades\Schema;';
         $replace = '<?php'.infy_nl(2);
-        if (!str_contains($templateData, $needles)) {
+        if (!Str::contains($templateData, $needles)) {
             $templateData = str_replace($replace, $replace.$needles.infy_nl(), $templateData);
         }
 
