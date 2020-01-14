@@ -39,10 +39,11 @@ class ViewGenerator extends InfyOmViewGenerator
 
     /**
      * Overriding rollback default behavior
+     * @param array $views
      */
-    public function rollback()
+    public function rollback($views = [])
     {
-        parent::rollback();
+        parent::rollback($views);
 
         $directoryName = Str::replaceFirst(base_path().'/', '', $this->path);
 
