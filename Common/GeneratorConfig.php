@@ -98,14 +98,19 @@ class GeneratorConfig extends InfyOmGeneratorConfig
      */
     protected function changeConfig($moduleName)
     {
+        $config = app('config');
+
         // Getting paths patterns
-        $modulePaths = app('config')->get('modules.generator.path');
+        $modulePaths = $config->get('modules.generator.path');
 
         // Getting namespaces patterns
-        $moduleNamespaces = app('config')->get('modules.generator.namespace');
+        $moduleNamespaces = $config->get('modules.generator.namespace');
 
         // Getting add_on definition from generator
-        $add_on = app('config')->get('modules.generator.add_on');
+        $add_on = $config->get('modules.generator.add_on');
+
+        // Getting template definition from generator
+        $templates = $config->get('modules.generator.templates');
 
         // Replacing paths
         array_walk($modulePaths, function (&$item, $key, $module) {
@@ -118,13 +123,16 @@ class GeneratorConfig extends InfyOmGeneratorConfig
         }, $moduleName);
 
         // Overriding paths
-        app('config')->set('infyom.laravel_generator.path', $modulePaths);
+        $config->set('infyom.laravel_generator.path', $modulePaths);
 
         // Overriding namespaces
-        app('config')->set('infyom.laravel_generator.namespace', $moduleNamespaces);
+        $config->set('infyom.laravel_generator.namespace', $moduleNamespaces);
 
         // Override add_on definition
-        app('config')->set('infyom.laravel_generator.add_on', $add_on);
+        $config->set('infyom.laravel_generator.add_on', $add_on);
+
+        // Override templates definition
+        $config->set('infyom.laravel_generator.templates', $templates);
     }
 
     /**

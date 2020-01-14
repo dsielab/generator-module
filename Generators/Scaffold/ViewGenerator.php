@@ -34,7 +34,7 @@ class ViewGenerator extends InfyOmViewGenerator
 
         $this->commandData = $commandData;
         $this->path = $commandData->config->pathViews;
-        $this->templateType = config('modules.generator.templates', 'adminlte-templates');
+        $this->templateType = config('modules.generator.templates', 'core-templates');
     }
 
     /**

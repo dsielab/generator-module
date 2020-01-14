@@ -13,7 +13,8 @@
         "php": ">=7.0.0",
         "nwidart/laravel-modules": "^6.2",
         "infyomlabs/laravel-generator": "^6.0",
-        "infyomlabs/swagger-generator": "dev-master"
+        "infyomlabs/swagger-generator": "dev-master",
+        "dsielab/core-templates": "dev-develop"
     },
     "extra": {
         "laravel": {
