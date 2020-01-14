@@ -24,7 +24,6 @@ use Modules\Generator\Generators\Scaffold\MenuGenerator;
 use Modules\Generator\Generators\Scaffold\RequestGenerator;
 use Modules\Generator\Generators\Scaffold\RoutesGenerator;
 use Modules\Generator\Generators\Scaffold\ViewGenerator;
-use Modules\Generator\Generators\TestTraitGenerator;
 use Modules\Generator\Generators\VueJs\ControllerGenerator as VueJsControllerGenerator;
 use Modules\Generator\Generators\VueJs\ModelJsConfigGenerator;
 use Modules\Generator\Generators\VueJs\RoutesGenerator as VueJsRoutesGenerator;
@@ -65,6 +64,18 @@ class RollbackGeneratorCommand extends InfyOmRollbackGeneratorCommand
         $this->commandData->config->mName = $this->commandData->modelName = $this->argument('model');
 
         $this->commandData->config->init($this->commandData, ['tableName', 'prefix']);
+
+        $views = $this->commandData->getOption('views');
+        if (!empty($views)) {
+            $views = explode(',', $views);
+            $viewGenerator = new ViewGenerator($this->commandData);
+            $viewGenerator->rollback($views);
+
+            $this->info('Generating autoload files');
+            $this->composer->dumpOptimized();
+
+            return;
+        }
 
         $migrationGenerator = new MigrationGenerator($this->commandData);
         $migrationGenerator->rollback();
@@ -111,9 +122,6 @@ class RollbackGeneratorCommand extends InfyOmRollbackGeneratorCommand
         if ($this->commandData->getAddOn('tests')) {
             $repositoryTestGenerator = new RepositoryTestGenerator($this->commandData);
             $repositoryTestGenerator->rollback();
-
-            $testTraitGenerator = new TestTraitGenerator($this->commandData);
-            $testTraitGenerator->rollback();
 
             $apiTestGenerator = new APITestGenerator($this->commandData);
             $apiTestGenerator->rollback();

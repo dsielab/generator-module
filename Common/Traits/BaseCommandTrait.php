@@ -18,7 +18,6 @@ use Modules\Generator\Generators\API\APIRequestGenerator;
 use Modules\Generator\Generators\API\APIRoutesGenerator;
 use Modules\Generator\Generators\API\APITestGenerator;
 use Modules\Generator\Generators\RepositoryTestGenerator;
-use Modules\Generator\Generators\TestTraitGenerator;
 use InfyOm\Generator\Utils\FileUtil;
 use Modules\Generator\Generators\MigrationGenerator;
 use Modules\Generator\Generators\ModelGenerator;
@@ -126,11 +125,10 @@ trait BaseCommandTrait
         }
 
         if (!$this->isSkip('tests') and $this->commandData->getAddOn('tests')) {
-            $repositoryTestGenerator = new RepositoryTestGenerator($this->commandData);
-            $repositoryTestGenerator->generate();
-
-            $testTraitGenerator = new TestTraitGenerator($this->commandData);
-            $testTraitGenerator->generate();
+            if ($this->commandData->getOption('repositoryPattern')) {
+                $repositoryTestGenerator = new RepositoryTestGenerator($this->commandData);
+                $repositoryTestGenerator->generate();
+            }
 
             $apiTestGenerator = new APITestGenerator($this->commandData);
             $apiTestGenerator->generate();
