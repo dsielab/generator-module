@@ -22,8 +22,17 @@ trait PublishBaseCommandTrait
         $this->commandData = new CommandData($this, CommandData::$COMMAND_TYPE_PUBLISH);
     }
 
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
     public function handle() {
-        $this->commandData->initCommandData();
+        $module = $this->argument('module') ?: app('modules')->getUsedNow();
+
+        $module = app('modules')->findOrFail($module);
+
+        $this->commandData->config->changeConfig($module);
 
         parent::handle();
     }

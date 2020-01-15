@@ -96,7 +96,7 @@ class GeneratorConfig extends InfyOmGeneratorConfig
      *
      * @param $moduleName
      */
-    protected function changeConfig($moduleName)
+    public function changeConfig($moduleName)
     {
         $config = app('config');
 
