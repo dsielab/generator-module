@@ -35,9 +35,13 @@ class VueJsLayoutPublishCommand extends InfyOmVueJsLayoutPublishCommand
 
     /**
      * Overrides handle trait
+     *
+     * @throws \Exception
      */
     public function handle ()
     {
+        $this->handleTrait();
+
         parent::handle();
     }
 }

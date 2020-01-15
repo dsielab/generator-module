@@ -35,9 +35,13 @@ class PublishTemplateCommand extends InfyOmPublishTemplateCommand
 
     /**
      * Overrides handle trait
+     *
+     * @throws \Exception
      */
     public function handle ()
     {
+        $this->handleTrait();
+
         parent::handle();
     }
 }

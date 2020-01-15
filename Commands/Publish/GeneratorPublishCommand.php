@@ -34,10 +34,14 @@ class GeneratorPublishCommand extends InfyOmGeneratorPublishCommand
     protected $name = 'generate:publish';
 
     /**
-     * Handle Overrides
+     * Overrides handle trait
+     *
+     * @throws \Exception
      */
     public function handle ()
     {
+        $this->handleTrait();
+
         parent::handle();
     }
 }
