@@ -22,7 +22,9 @@ class LayoutPublishCommand extends InfyOmLayoutPublishCommand
     /**
      * Modifying Inheritance for InfyOm PublishBaseCommand class to override ConfigGenerator
      */
-    use PublishBaseCommandTrait;
+    use PublishBaseCommandTrait {
+        handle as public handleTrait;
+    }
 
     /**
      * The console command name.
@@ -30,4 +32,35 @@ class LayoutPublishCommand extends InfyOmLayoutPublishCommand
      * @var string
      */
     protected $name = 'generate.publish:layout';
+
+    /**
+     * @throws \Exception
+     */
+    public function handle ()
+    {
+        $this->handleTrait();
+
+        $templatesPath = config(
+            'modules.generator.path.templates_dir',
+            resource_path('templates/module-generator-templates/')
+        ).'scaffold/layouts/app.stub';
+
+        if (!file_exists($templatesPath)) {
+            $this->publishScaffoldTemplates();
+        }
+
+        parent::handle();
+    }
+
+    /**
+     * Publishes scaffold templates.
+     */
+    public function publishScaffoldTemplates()
+    {
+        $templateType = config('modules.generator.templates', 'core-templates');
+
+        $templatesPath = base_path('vendor/dsielab/'.$templateType.'/templates/scaffold');
+
+        return $this->publishDirectory($templatesPath, $this->templatesDir.'scaffold', 'module-generator-templates/scaffold', true);
+    }
 }

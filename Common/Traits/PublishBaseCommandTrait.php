@@ -39,7 +39,5 @@ trait PublishBaseCommandTrait
         }
 
         $this->commandData->config->changeConfig($module);
-
-        parent::handle();
     }
 }
