@@ -22,7 +22,9 @@ class VueJsLayoutPublishCommand extends InfyOmVueJsLayoutPublishCommand
     /**
      * Modifying Inheritance for InfyOm PublishBaseCommand class to override ConfigGenerator
      */
-    use PublishBaseCommandTrait;
+    use PublishBaseCommandTrait {
+        handle as public handleTrait;
+    }
 
     /**
      * The console command name.
@@ -30,4 +32,12 @@ class VueJsLayoutPublishCommand extends InfyOmVueJsLayoutPublishCommand
      * @var string
      */
     protected $name = 'generate.publish:vuejs';
+
+    /**
+     * Overrides handle trait
+     */
+    public function handle ()
+    {
+        parent::handle();
+    }
 }

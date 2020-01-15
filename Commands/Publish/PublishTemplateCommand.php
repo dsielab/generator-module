@@ -22,7 +22,9 @@ class PublishTemplateCommand extends InfyOmPublishTemplateCommand
     /**
      * Modifying Inheritance for InfyOm PublishBaseCommand class to override ConfigGenerator
      */
-    use PublishBaseCommandTrait;
+    use PublishBaseCommandTrait {
+        handle as public handleTrait;
+    }
 
     /**
      * The console command name.
@@ -30,4 +32,12 @@ class PublishTemplateCommand extends InfyOmPublishTemplateCommand
      * @var string
      */
     protected $name = 'generate.publish:templates';
+
+    /**
+     * Overrides handle trait
+     */
+    public function handle ()
+    {
+        parent::handle();
+    }
 }
