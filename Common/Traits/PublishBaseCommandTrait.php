@@ -21,4 +21,10 @@ trait PublishBaseCommandTrait
 
         $this->commandData = new CommandData($this, CommandData::$COMMAND_TYPE_PUBLISH);
     }
+
+    public function handle() {
+        $this->commandData->initCommandData();
+
+        parent::handle();
+    }
 }
