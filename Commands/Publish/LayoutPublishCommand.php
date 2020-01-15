@@ -61,6 +61,8 @@ class LayoutPublishCommand extends InfyOmLayoutPublishCommand
 
         $templatesPath = base_path('vendor/dsielab/'.$templateType.'/templates/scaffold');
 
-        return $this->publishDirectory($templatesPath, $this->templatesDir.'scaffold', 'module-generator-templates/scaffold', true);
+        $destinationDir = config('modules.generator.path.templates_dir').'scaffold';
+
+        return $this->publishDirectory($templatesPath, $destinationDir, 'module-generator-templates/scaffold', true);
     }
 }
