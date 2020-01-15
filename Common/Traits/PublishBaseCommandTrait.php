@@ -9,6 +9,7 @@
 namespace Modules\Generator\Common\Traits;
 
 use Modules\Generator\Common\CommandData;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 trait PublishBaseCommandTrait
 {
@@ -26,11 +27,16 @@ trait PublishBaseCommandTrait
      * Execute the command.
      *
      * @return void
+     * @throws \Exception
      */
     public function handle() {
-        $module = $this->argument('module') ?: app('modules')->getUsedNow();
-
-        $module = app('modules')->findOrFail($module);
+        try {
+            $module = $this->argument('module');
+        } catch (InvalidArgumentException $e) {
+            $module = app('modules')->getUsedNow();
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
         $this->commandData->config->changeConfig($module);
 
