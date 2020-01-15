@@ -42,6 +42,10 @@ return [
 
         'schema_files'      => base_path('modules/{Module}/Resources/model_schemas/'),
 
+        'templates_dir'     => resource_path('templates/module-generator-templates/'),
+
+        'seeder'            => base_path('modules/{Module}/Database/Seeders/'),
+
         'modelJs'           => base_path('modules/{Module}/Resources/assets/js/models/'),
     ],
 
