@@ -10,6 +10,7 @@ namespace Modules\Generator\Console\Module;
 
 use Modules\Generator\Generators\ModuleGenerator;
 use Nwidart\Modules\Commands\ModuleMakeCommand as NwidartModuleMakeCommand;
+use Nwidart\Modules\Contracts\ActivatorInterface;
 
 class ModuleMakeCommand extends NwidartModuleMakeCommand
 {
@@ -36,6 +37,7 @@ class ModuleMakeCommand extends NwidartModuleMakeCommand
                 ->setFilesystem($this->laravel['files'])
                 ->setModule($this->laravel['modules'])
                 ->setConfig($this->laravel['config'])
+                ->setActivator($this->laravel[ActivatorInterface::class])
                 ->setConsole($this)
                 ->setForce($this->option('force'))
                 ->setPlain($this->option('plain'))
