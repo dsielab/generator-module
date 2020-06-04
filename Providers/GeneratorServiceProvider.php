@@ -24,13 +24,11 @@ use Modules\Generator\Console\Module\UsedCommand;
 use Modules\Generator\Console\Publish\GeneratorPublishCommand;
 use Modules\Generator\Console\Publish\LayoutPublishCommand;
 use Modules\Generator\Console\Publish\PublishTemplateCommand;
-use Modules\Generator\Console\Publish\VueJsLayoutPublishCommand;
 use Modules\Generator\Console\RollbackGeneratorCommand;
 use Modules\Generator\Console\Scaffold\ControllerGeneratorCommand;
 use Modules\Generator\Console\Scaffold\RequestsGeneratorCommand;
 use Modules\Generator\Console\Scaffold\ScaffoldGeneratorCommand;
 use Modules\Generator\Console\Scaffold\ViewsGeneratorCommand;
-use Modules\Generator\Console\VueJs\VueJsGeneratorCommand;
 
 class GeneratorServiceProvider extends ServiceProvider
 {
@@ -154,14 +152,6 @@ class GeneratorServiceProvider extends ServiceProvider
             return new RollbackGeneratorCommand();
         });
 
-        $this->app->singleton('generate.vuejs', function () {
-            return new VueJsGeneratorCommand();
-        });
-
-        $this->app->singleton('generate.publish.vuejs', function () {
-            return new VueJsLayoutPublishCommand();
-        });
-
         $this->app->singleton('generate.bulk_scaffold', function () {
             return new BulkScaffoldGeneratorCommand();
         });
@@ -193,8 +183,6 @@ class GeneratorServiceProvider extends ServiceProvider
             'generate.scaffold.requests',
             'generate.scaffold.views',
             'generate.rollback',
-            'generate.vuejs',
-            'generate.publish.vuejs',
             'generate.models_file'
         ]);
     }
