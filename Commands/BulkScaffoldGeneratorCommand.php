@@ -27,7 +27,6 @@ class BulkScaffoldGeneratorCommand extends BaseCommand
         'api' => 'generate:api',
         'scaffold' => 'generate:scaffold',
         'scaffold_requests' => 'generate.scaffold:requests',
-        'vuejs' => 'generate:vuejs'
     ];
 
     /**
@@ -62,7 +61,7 @@ class BulkScaffoldGeneratorCommand extends BaseCommand
     {
         return [
             ['module', null, InputOption::VALUE_REQUIRED, 'Specify if you want to generate scaffold for specific module.'],
-            ['type', null, InputOption::VALUE_REQUIRED, 'Define which generator will be executed (api_scaffold (from generate:api_scaffold) [default] | api (from generate:api) | scaffold (from generate:scaffold) | scaffold_requests (from generate.scaffold:requests) | vuejs (from generate:vuejs))'],
+            ['type', null, InputOption::VALUE_REQUIRED, 'Define which generator will be executed (api_scaffold (from generate:api_scaffold) [default] | api (from generate:api) | scaffold (from generate:scaffold) | scaffold_requests (from generate.scaffold:requests))'],
             ['save', null, InputOption::VALUE_NONE, 'Save model schema to file'],
             ['prefix', null, InputOption::VALUE_REQUIRED, 'Prefix for all files'],
             ['paginate', null, InputOption::VALUE_REQUIRED, 'Pagination for index.blade.php'],
