@@ -12,7 +12,7 @@
     "require": {
         "php": ">=7.0.0",
         "nwidart/laravel-modules": "^7.1",
-        "infyomlabs/laravel-generator": "7.0",
+        "infyomlabs/laravel-generator": "7.0.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
         "dsielab/core-templates": "dev-develop"
     },
